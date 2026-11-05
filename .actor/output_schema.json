@@ -1,0 +1,37 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Building permit leads output",
+  "description": "Permit leads (and contractor summary rows) in the default dataset, plus a per-city run summary.",
+  "properties": {
+    "permits": {
+      "type": "string",
+      "title": "Permit leads",
+      "description": "One row per permit: trade, lead score, address, value and contractor details where published.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview"
+    },
+    "contractors": {
+      "type": "string",
+      "title": "Contractor summary",
+      "description": "One row per contractor per city (filled when Output is 'Contractor summary' or 'Both').",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=contractors"
+    },
+    "allFields": {
+      "type": "string",
+      "title": "All fields (JSON)",
+      "description": "Every field of every row in the dataset.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "runSummary": {
+      "type": "string",
+      "title": "Run summary",
+      "description": "Matched, scanned and skipped counts per city, plus any source that was unavailable.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/RUN_SUMMARY"
+    },
+    "health": {
+      "type": "string",
+      "title": "Health check report",
+      "description": "Written only by health-check runs: newest permit date and status per source.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/HEALTH"
+    }
+  }
+}

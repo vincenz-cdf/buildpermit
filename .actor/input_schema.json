@@ -117,7 +117,8 @@
       "description": "Ignored when 'Issued from' is set. Cities publish with a 1-7 day lag, so 7+ days is safest for daily schedules.",
       "minimum": 1,
       "maximum": 3650,
-      "default": 30
+      "default": 30,
+      "editor": "number"
     },
     "dateFrom": {
       "title": "Issued from",
@@ -197,11 +198,13 @@
       "title": "Minimum project value ($)",
       "type": "integer",
       "description": "Drops permits below this value, and permits from cities that do not publish a value.",
-      "minimum": 0
+      "minimum": 0,
+      "editor": "number"
     },
     "propertyType": {
       "title": "Property type",
       "type": "string",
+      "description": "Keep only residential or only commercial permits. Permits whose city does not say are dropped by these two options.",
       "editor": "select",
       "enum": [
         "any",
@@ -238,16 +241,20 @@
       "title": "Exclude owner-builder permits",
       "type": "boolean",
       "description": "Skip permits where the owner is doing the work themselves.",
-      "default": false
+      "default": false,
+      "editor": "checkbox"
     },
     "excludeClosed": {
       "title": "Exclude finaled / closed / expired permits",
       "type": "boolean",
-      "default": false
+      "description": "Skip permits whose status says the work is already finished, closed, expired or cancelled.",
+      "default": false,
+      "editor": "checkbox"
     },
     "minLeadGrade": {
       "title": "Minimum lead grade",
       "type": "string",
+      "description": "HOT = score 60+, WARM = 35+. The score weighs freshness, project value, contractor phone/email and permit status.",
       "editor": "select",
       "enum": [
         "COLD",
@@ -283,13 +290,15 @@
       "title": "Only permits not delivered before",
       "type": "boolean",
       "description": "Remembers delivered permits between runs, so scheduled runs only return (and charge for) new ones.",
-      "default": false
+      "default": false,
+      "editor": "checkbox"
     },
     "stateKey": {
       "title": "Memory name for 'only new'",
       "type": "string",
       "description": "Use a different name per schedule, so each schedule remembers its own permits.",
-      "default": "default"
+      "default": "default",
+      "editor": "textfield"
     },
     "maxResultsPerCity": {
       "title": "Max permits per city",
@@ -297,33 +306,38 @@
       "description": "Newest permits first. Also caps the permits used for the contractor summary.",
       "minimum": 1,
       "maximum": 100000,
-      "default": 500
+      "default": 500,
+      "editor": "number"
     },
     "maxResults": {
       "title": "Max permits in total",
       "type": "integer",
       "description": "0 = no overall limit (the per-city limit still applies).",
       "minimum": 0,
-      "default": 0
+      "default": 0,
+      "editor": "number"
     },
     "includeRaw": {
       "title": "Include raw source record",
       "type": "boolean",
       "description": "Adds the original row from the city's portal under 'raw'.",
-      "default": false
+      "default": false,
+      "editor": "checkbox"
     },
     "socrataAppToken": {
       "title": "Socrata app token (optional)",
       "type": "string",
       "description": "Your own free Socrata app token for higher rate limits. Not needed for normal use.",
       "isSecret": true,
-      "sectionCaption": "Advanced"
+      "sectionCaption": "Advanced",
+      "editor": "textfield"
     },
     "healthCheck": {
       "title": "Health check only",
       "type": "boolean",
       "description": "Checks that each selected source answers and how recent its newest permit is. Writes the HEALTH record; returns no permits.",
-      "default": false
+      "default": false,
+      "editor": "checkbox"
     }
   }
 }

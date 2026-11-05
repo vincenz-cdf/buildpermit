@@ -99,6 +99,7 @@ def build() -> dict:
             "propertyType": {
                 "title": "Property type",
                 "type": "string",
+                "description": "Keep only residential or only commercial permits. Permits whose city does not say are dropped by these two options.",
                 "editor": "select",
                 "enum": ["any", "residential", "commercial"],
                 "enumTitles": ["Any", "Residential only", "Commercial only"],
@@ -122,11 +123,13 @@ def build() -> dict:
             "excludeClosed": {
                 "title": "Exclude finaled / closed / expired permits",
                 "type": "boolean",
+                "description": "Skip permits whose status says the work is already finished, closed, expired or cancelled.",
                 "default": False,
             },
             "minLeadGrade": {
                 "title": "Minimum lead grade",
                 "type": "string",
+                "description": "HOT = score 60+, WARM = 35+. The score weighs freshness, project value, contractor phone/email and permit status.",
                 "editor": "select",
                 "enum": ["COLD", "WARM", "HOT"],
                 "enumTitles": ["All (COLD and up)", "WARM and HOT", "HOT only"],
@@ -192,8 +195,20 @@ def build() -> dict:
     }
 
 
+DEFAULT_EDITOR = {"string": "textfield", "integer": "number", "boolean": "checkbox"}
+
+
+def schema() -> dict:
+    """build() plus an explicit editor on every field (Apify requires it for strings)."""
+    s = build()
+    for prop in s["properties"].values():
+        if "editor" not in prop and prop["type"] in DEFAULT_EDITOR:
+            prop["editor"] = DEFAULT_EDITOR[prop["type"]]
+    return s
+
+
 if __name__ == "__main__":
     out = ROOT / ".actor" / "input_schema.json"
     out.parent.mkdir(exist_ok=True)
-    out.write_text(json.dumps(build(), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    out.write_text(json.dumps(schema(), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Wrote {out}")

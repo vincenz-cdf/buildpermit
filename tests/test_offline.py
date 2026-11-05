@@ -1,4 +1,4 @@
-"""Offline tests: parsing, trade classification, normalization, filters, rollup, input schema sync."""
+﻿"""Offline tests: parsing, trade classification, normalization, filters, rollup, input schema sync."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from scripts.gen_input_schema import build  # noqa: E402
+from scripts.gen_input_schema import schema as build  # noqa: E402
 from src.cities import CITIES, CITY_BY_KEY  # noqa: E402
 from src.contractors import contractor_key, rollup  # noqa: E402
 from src.enrich import classify_trades  # noqa: E402
@@ -185,3 +185,14 @@ def test_registry_and_schema_in_sync():
         assert "permit_number" in c.fields and c.sources, c.key
     on_disk = json.loads((ROOT / ".actor" / "input_schema.json").read_text(encoding="utf-8"))
     assert on_disk == build(), "input_schema.json is stale: run python scripts/gen_input_schema.py"
+
+
+def test_input_schema_rules_apify_enforces():
+    for name, prop in build()["properties"].items():
+        assert prop.get("title") and prop.get("description"), f"{name}: Apify requires title and description"
+        assert prop.get("type") in ("string", "integer", "boolean", "array", "object"), name
+        assert prop.get("editor"), f"{name}: Apify requires an editor"
+        if prop.get("isSecret"):
+            assert "default" not in prop and "prefill" not in prop, f"{name}: secret fields cannot have defaults"
+    actor = json.loads((ROOT / ".actor" / "actor.json").read_text(encoding="utf-8"))
+    assert len(actor["title"]) <= 63 and len(actor["name"]) <= 63

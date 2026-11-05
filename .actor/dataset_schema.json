@@ -1,0 +1,42 @@
+{
+  "actorSpecification": 1,
+  "views": {
+    "overview": {
+      "title": "Permit leads",
+      "transformation": {
+        "fields": [
+          "lead_grade", "lead_score", "issue_date", "city", "state", "primary_trade", "permit_type",
+          "description", "address", "zip", "project_value", "contractor_name", "contractor_phone",
+          "contractor_email", "contractor_license", "owner_name", "status", "permit_number", "record_url"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "lead_grade": { "label": "Grade", "format": "text" },
+          "lead_score": { "label": "Score", "format": "number" },
+          "issue_date": { "label": "Issued", "format": "date" },
+          "project_value": { "label": "Value ($)", "format": "number" },
+          "record_url": { "label": "Link", "format": "link" }
+        }
+      }
+    },
+    "contractors": {
+      "title": "Contractor summary",
+      "transformation": {
+        "fields": [
+          "contractor_name", "city", "state", "permit_count", "total_project_value", "top_trades",
+          "contractor_phone", "contractor_email", "contractor_license", "latest_issue_date"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "permit_count": { "label": "Permits", "format": "number" },
+          "total_project_value": { "label": "Total value ($)", "format": "number" },
+          "latest_issue_date": { "label": "Latest permit", "format": "date" }
+        }
+      }
+    }
+  }
+}

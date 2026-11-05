@@ -1,0 +1,13 @@
+{
+  "actorSpecification": 1,
+  "name": "building-permit-leads",
+  "title": "Building Permit Leads - Contractors, Phones & Trades (US + Canada)",
+  "description": "New building permits from 31 official city and county open-data portals, with trade categories, lead scores, contractor phone/license where published, only-new mode and a contractor summary.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "dockerfile": "../Dockerfile"
+}
